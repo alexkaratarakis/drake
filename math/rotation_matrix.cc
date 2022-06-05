@@ -135,8 +135,10 @@ RotationMatrix<T> RotationMatrix<T>::MakeFromOneUnitVector(
   // are used to cleverly implement the previous patterns (above) for v and w.
   // The value of the index i is determined by identifying uₘᵢₙ = u_A(i),
   // the element of u_A with smallest absolute value.
-  int i;
-  u_A.cwiseAbs().minCoeff(&i);  // uₘᵢₙ = u_A(i).
+  const Vector3<T> u_A_abs = u_A.cwiseAbs();
+  int i = 0;
+  if (u_A_abs[1] < u_A_abs[i]) { i = 1; }
+  if (u_A_abs[2] < u_A_abs[i]) { i = 2; }
   const int j = (i + 1) % 3;
   const int k = (j + 1) % 3;
 
