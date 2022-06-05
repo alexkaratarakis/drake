@@ -555,6 +555,20 @@ EIGEN_DEVICE_FUNC inline drake::symbolic::Expression cast(
   return p.ToExpression();
 }
 }  // namespace internal
+namespace numext {
+#if EIGEN_VERSION_AT_LEAST(3, 3, 5)
+template <>
+bool equal_strict(
+    const drake::symbolic::Polynomial& x,
+    const drake::symbolic::Polynomial& y);
+template <>
+EIGEN_STRONG_INLINE bool not_equal_strict(
+    const drake::symbolic::Polynomial& x,
+    const drake::symbolic::Polynomial& y) {
+  return !Eigen::numext::equal_strict(x, y);
+}
+#endif
+}  // namespace numext
 }  // namespace Eigen
 #endif  // !defined(DRAKE_DOXYGEN_CXX)
 
